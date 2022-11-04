@@ -7,4 +7,5 @@ I will be create a highly available two-tier AWS architecture containing the fol
    Internet-facing Application Load Balancer targeting Web Server Auto Scaling Group
  Deploy this using Terraform Cloud as a CI/CD tool to check your build.
  Use module blocks for ease of use and re-usability.
- Deploy this using Terraform Cloud as a CI/CD tool to check your build.
+ Deploy this using Terraform Cloud as a CI/CD tool to check your build
+ 

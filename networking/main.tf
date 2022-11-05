@@ -58,7 +58,7 @@ resource "aws_internet_gateway" "luit_internet_gateway" {
 # Elastic IP for NAT Gateway
 resource "aws_eip" "luit_eip" {
   vpc = true
-  
+
   tags = {
     Name = "luit_eip"
   }
@@ -67,7 +67,7 @@ resource "aws_eip" "luit_eip" {
 resource "aws_nat_gateway" "luit_nat_gateway" {
   allocation_id = aws_eip.luit_eip.id
   subnet_id     = aws_subnet.luit_public_subnet[0].id
-  
+
   tags = {
     Name = "luit_nat_gateway"
   }
@@ -113,4 +113,28 @@ resource "aws_route_table_association" "luit_public_association" {
   count          = var.public_sn_count
   subnet_id      = aws_subnet.luit_public_subnet.*.id[count.index]
   route_table_id = aws_route_table.luit_public_rt.id
+}
+
+resource "aws_security_group" "bastion_sg" {
+  name        = "bastion_sg"
+  description = "allow SSH access"
+  vpc_id      = aws_vpc.luit_vpc.id
+
+  ingress {
+    description = "allow inbound traffic"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.access_ip]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "bastion_sg"
+  }
 }

@@ -114,8 +114,8 @@ resource "aws_route_table_association" "luit_public_association" {
   subnet_id      = aws_subnet.luit_public_subnet.*.id[count.index]
   route_table_id = aws_route_table.luit_public_rt.id
 }
-
-resource "aws_security_group" "bastion_sg" {
+#security group for bastion host
+resource "aws_security_group" "bastion_sg" { 
   name        = "bastion_sg"
   description = "allow SSH access"
   vpc_id      = aws_vpc.luit_vpc.id
@@ -138,3 +138,65 @@ resource "aws_security_group" "bastion_sg" {
     Name = "bastion_sg"
   }
 }
+
+# ALB SG
+resource "aws_security_group" "alb_sg" {
+  name        = "alb_sg"
+  description = "Allow HTTP inbound traffic for web servers"
+  vpc_id      = aws_vpc.luit_vpc.id
+
+  ingress {
+    description = "Allow HTTP inbound traffic for web servers"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "alb-sg"
+  }
+}
+
+#security-group for the web-server
+resource "aws_security_group" "webserver_sg" {
+  name        = "webserver_sg"
+  description = "Allow HTTP inbound traffic from lb and SSH traffic from bastion host"
+  vpc_id      = aws_vpc.luit_vpc.id
+
+
+  ingress {
+    description     = "Allow SSH traffic from Bastion Host security group"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.bastion_sg.id]
+  }
+
+  ingress {
+    description     = "Allow HTTP traffic from ALB security group"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "webserver_sg"
+  }
+}
+

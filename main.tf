@@ -13,3 +13,11 @@ module "networking" {
   private_cidrs    = [for i in range(2, 255, 2) : cidrsubnet("10.0.0.0/16", 8, i)]
 
 }
+module "loadbalancing" {
+  source            = "./loadbalancing"
+  public_subnet_ids = module.networking.public_subnet_ids
+  alb_sg_id         = module.networking.alb_sg_id
+  vpc_id            = module.networking.vpc_id
+
+
+}

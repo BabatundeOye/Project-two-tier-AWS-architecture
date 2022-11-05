@@ -115,7 +115,7 @@ resource "aws_route_table_association" "luit_public_association" {
   route_table_id = aws_route_table.luit_public_rt.id
 }
 #security group for bastion host
-resource "aws_security_group" "bastion_sg" { 
+resource "aws_security_group" "bastion_sg" {
   name        = "bastion_sg"
   description = "allow SSH access"
   vpc_id      = aws_vpc.luit_vpc.id

@@ -22,7 +22,6 @@ variable "private_sn_count" {
 variable "max_subnets" {
   type = number
 }
-
 variable "access_ip" {
-    type = string
+  type = string
 }

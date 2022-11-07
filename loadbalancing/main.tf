@@ -1,7 +1,6 @@
 #loadbalancing/main.tf
 
 #application load balancer directing traffic to public subnets
-
 resource "aws_lb" "luit_lb" {
   name               = "luit-loadbalancer"
   internal           = false
@@ -21,7 +20,6 @@ resource "aws_lb_target_group" "luit_tg" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 }
-
 
 #ALB listener 
 resource "aws_lb_listener" "luit_listener" {

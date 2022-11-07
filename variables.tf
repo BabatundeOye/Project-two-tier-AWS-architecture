@@ -8,3 +8,7 @@ variable "aws_region" {
 variable "access_ip" {
   type = string
 }
+
+variable "access_key" {}
+variable "secret_key" {}
+variable "key_name" {}

@@ -1,7 +1,5 @@
 #---root/main.tf
 
-
-
 module "networking" {
   source           = "./networking"
   vpc_cidr         = local.vpc_cidr
@@ -18,6 +16,12 @@ module "loadbalancing" {
   public_subnet_ids = module.networking.public_subnet_ids
   alb_sg_id         = module.networking.alb_sg_id
   vpc_id            = module.networking.vpc_id
+}
 
-
+module "compute" {
+  source            = "./compute"
+  key_name          = "orange"
+  bastion_sg_id     = module.networking.bastion_sg_id
+  public_subnet_ids = module.networking.public_subnet_ids
+  vpc_id            = module.networking.vpc_id
 }

@@ -11,4 +11,4 @@ variable "access_ip" {
 
 variable "access_key" {}
 variable "secret_key" {}
-variable "key_name" {}
+# variable "key_name" {}

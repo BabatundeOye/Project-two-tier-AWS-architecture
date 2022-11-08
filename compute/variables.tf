@@ -19,3 +19,5 @@ variable "vpc_id" {}
 variable "web_server_sg_id" {}
 
 variable "private_subnet_ids" {}
+
+variable "asg_tg_arn" {}

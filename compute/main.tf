@@ -65,8 +65,8 @@ resource "aws_autoscaling_group" "webserver_asg" {
 }
 
 
-# # Create ASG Target Group attachment
-# resource "aws_autoscaling_attachment" "asg_attachment" {
-#   autoscaling_group_name = aws_autoscaling_group.webserver_asg.id
-#   lb_target_group_arn    = aws_lb.luit_lb.arn
-# }
+# Create ASG Target Group attachment
+resource "aws_autoscaling_attachment" "asg_attachment" {
+  autoscaling_group_name = aws_autoscaling_group.webserver_asg.id
+  lb_target_group_arn    = var.asg_tg_arn
+}

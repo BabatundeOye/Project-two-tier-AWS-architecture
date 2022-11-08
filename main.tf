@@ -16,15 +16,16 @@ module "loadbalancing" {
   public_subnet_ids = module.networking.public_subnet_ids
   alb_sg_id         = module.networking.alb_sg_id
   vpc_id            = module.networking.vpc_id
+
 }
 
 module "compute" {
-  source            = "./compute"
-  key_name          = "orange"
-  bastion_sg_id     = module.networking.bastion_sg_id
-  public_subnet_ids = module.networking.public_subnet_ids
-  vpc_id            = module.networking.vpc_id
-  web_server_sg_id  = module.networking.webserver_sg_id
+  source             = "./compute"
+  key_name           = "orange"
+  bastion_sg_id      = module.networking.bastion_sg_id
+  public_subnet_ids  = module.networking.public_subnet_ids
+  vpc_id             = module.networking.vpc_id
+  web_server_sg_id   = module.networking.webserver_sg_id
   private_subnet_ids = module.networking.private_subnet_ids
-  # alb_tg_arn         = module.loadbalancing.
+  asg_tg_arn         = module.loadbalancing.asg_tg_arn
 }

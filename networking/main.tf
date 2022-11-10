@@ -3,7 +3,7 @@
 data "aws_availability_zones" "available" {} #data source for available AZs
 
 resource "random_pet" "pet_name" { #assigns pet_name to the vpcname
-  length = 3
+  length = 2
 }
 
 resource "random_shuffle" "az_list" {
